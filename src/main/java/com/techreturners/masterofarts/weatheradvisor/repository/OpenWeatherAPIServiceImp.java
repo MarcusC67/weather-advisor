@@ -1,11 +1,41 @@
 package com.techreturners.masterofarts.weatheradvisor.repository;
 
+import com.techreturners.masterofarts.weatheradvisor.model.OpenApiWeather;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService{
+@Service
+public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
+
+
+    private static final String URL = "https://api.openweathermap.org/data/2.5/weather?appid=%s&lat=%s&lon=%s&units=%s";
+    private static final String API_KEY = "749a888b35558fbf6d802a8575bdf1ec";
+    private static final String UNITS = "metric";
+    private static final double LAT = 51.509865;
+    private static final double LON = -0.118092;
+
+    private RestTemplate restTemplate;
+
+    @Autowired
+    public OpenWeatherAPIServiceImp(RestTemplateBuilder builder) {
+        this.restTemplate = builder.build();
+    }
+
 
     @Override
     public Weather getWeather() {
-        return null;
+        OpenApiWeather openApiWeather = restTemplate.getForObject(
+                String.format(URL, API_KEY, LAT, LON, UNITS),
+                OpenApiWeather.class
+        );
+
+        return Weather.builder()
+                      .temp(openApiWeather.getTemp())
+                      .rain(openApiWeather.getRain())
+                      .cloud(openApiWeather.getCloud())
+                      .build();
     }
 }
