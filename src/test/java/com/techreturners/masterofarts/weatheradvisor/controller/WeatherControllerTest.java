@@ -46,7 +46,12 @@ class WeatherControllerTest {
         double temp = 17.3;
         long rain = 0L;
         int cloud = 75;
-        Weather weather = new Weather(temp, rain, cloud);
+        Weather weather = Weather
+                .builder()
+                .cloud(cloud)
+                .temp(temp)
+                .rain(rain)
+                .build();
 
         when(advisorService.getWeather()).thenReturn(weather);
 
