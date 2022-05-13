@@ -30,11 +30,13 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
 
     @Override
     public Weather getWeather() {
+        //Api response deserialized into OpenAPI WeatherObject
         OpenApiWeather openApiWeather = restTemplate.getForObject(
                 String.format(URL, API_KEY, LAT, LON, UNITS),
                 OpenApiWeather.class
         );
 
+        //OpenApiWeather mapped to Weather Model
         return Weather.builder()
                       .temp(openApiWeather.getTemp())
                       .rain(openApiWeather.getRain())

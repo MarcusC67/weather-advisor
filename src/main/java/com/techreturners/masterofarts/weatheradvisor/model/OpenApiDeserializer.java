@@ -13,10 +13,13 @@ public class OpenApiDeserializer extends JsonDeserializer {
     @Override
     public OpenApiWeather deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
 
+        //Get root node
         JsonNode weatherNode = jsonParser.getCodec().readTree(jsonParser);
 
         OpenApiWeather weather = new OpenApiWeather();
 
+        //Check required Json keys exist
+        //Then mapped to OpenApiWeatherObject
         if (weatherNode.has("main") && weatherNode.get("main").has("temp"))
             weather.setTemp(weatherNode.get("main").get("temp").asDouble());
         if (weatherNode.has("rain") && weatherNode.get("rain").has("1h"))
