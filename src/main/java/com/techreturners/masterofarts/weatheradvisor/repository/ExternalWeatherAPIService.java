@@ -2,6 +2,9 @@ package com.techreturners.masterofarts.weatheradvisor.repository;
 
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 
+/**
+ * Service that connects to external weather API.
+ */
 public interface ExternalWeatherAPIService {
 
     /**
