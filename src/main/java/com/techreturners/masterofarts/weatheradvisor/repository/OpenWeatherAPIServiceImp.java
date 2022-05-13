@@ -27,7 +27,6 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
         this.restTemplate = builder.build();
     }
 
-
     @Override
     public Weather getWeather() {
         //Api response deserialized into OpenAPI WeatherObject
