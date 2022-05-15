@@ -52,4 +52,5 @@ Create logic to determine how the user should prepare for a day outside (i.e. cl
   * [Weather in London](https://api.openweathermap.org/data/2.5/weather?lat=51.5072&lon=-0.1276&appid=7eff9edfb26b5501801fe33731f11aa4&units=metric)
   * [Weather in Chichester](https://api.openweathermap.org/data/2.5/weather?lat=50.8376&lon=-0.7749&appid=7eff9edfb26b5501801fe33731f11aa4&units=metric)
   * [Weather in York](https://api.openweathermap.org/data/2.5/weather?lat=53.9614&lon=-1.0739&appid=7eff9edfb26b5501801fe33731f11aa4&units=metric)
-
+* UML for Sprint 1:
+![UML for Sprint 1](doc/UML%20-%20Sprint%201.png)
