@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UmbrellaRecommender implements Recommender {
 
-    private static final Item item = Item.UMBRELLA;
+    private static final Item item = Item.Umbrella;
     private static final double NO_RAIN = 0; //mm of rain per hour
     private static final double LIGHT_RAIN_BOUNDARY = 2.5; //mm of rain per hour
 
@@ -19,11 +19,11 @@ public class UmbrellaRecommender implements Recommender {
         Advice advice = null;
 
         if(weather.getRain() <= NO_RAIN)
-            advice = Advice.NO;
+            advice = Advice.No;
         else if(weather.getRain() > 0 || weather.getRain() < LIGHT_RAIN_BOUNDARY)
-            advice = Advice.MAYBE;
+            advice = Advice.Maybe;
         else if(weather.getRain() > LIGHT_RAIN_BOUNDARY)
-            advice = Advice.YES;
+            advice = Advice.Yes;
 
         return Recommendation.builder().item(item).advice(advice).build();
     }
