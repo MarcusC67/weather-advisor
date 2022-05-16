@@ -1,6 +1,7 @@
 package com.techreturners.masterofarts.weatheradvisor.service;
 
 import com.techreturners.masterofarts.weatheradvisor.model.*;
+import com.techreturners.masterofarts.weatheradvisor.recommender.Recommender;
 import com.techreturners.masterofarts.weatheradvisor.repository.ExternalWeatherAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
