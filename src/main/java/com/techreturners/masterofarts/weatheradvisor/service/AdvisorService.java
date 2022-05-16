@@ -21,7 +21,7 @@ public class AdvisorService {
         return externalWeatherAPIService.getWeather();
     }
 
-    public AdviceObject getAdvice(){
+    public AdviceForLocation getAdvice(){
         Weather weather = externalWeatherAPIService.getWeather();
 
         Location location = Location.builder()
@@ -36,6 +36,6 @@ public class AdvisorService {
             recommendations.add(recommender.recommend(weather));
         }
 
-        return AdviceObject.builder().location(location).recommendations(recommendations).build();
+        return AdviceForLocation.builder().location(location).recommendations(recommendations).build();
     }
 }

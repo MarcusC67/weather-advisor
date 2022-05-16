@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public class AdviceObject {
+public class AdviceForLocation {
 
     Location location;
     List<Recommendation> recommendations;
