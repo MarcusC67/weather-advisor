@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,9 +22,13 @@ class AdvisorServiceTest {
 
     @Test
     public void testGetWeather(){
+
         double temp = 17.3;
         long rain = 0L;
         int cloud = 75;
+        double lat = 51.5072;
+        double lon = -0.1276;
+
         Weather weather = Weather
                 .builder()
                 .cloud(cloud)
@@ -34,7 +37,7 @@ class AdvisorServiceTest {
                 .build();
         when(mockExternalWeatherAPIService.getWeather()).thenReturn(weather);
 
-        assertThat(advisorService.getWeather()).isEqualTo(weather);
+        assertThat(advisorService.getWeather(lat, lon)).isEqualTo(weather);
 
     }
 

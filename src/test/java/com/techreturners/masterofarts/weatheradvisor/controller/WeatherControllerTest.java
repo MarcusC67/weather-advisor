@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @AutoConfigureMockMvc
@@ -42,10 +41,12 @@ class WeatherControllerTest {
     @Test
     public void testDefaultGetWeather() throws Exception {
 
-
         double temp = 17.3;
         long rain = 0L;
         int cloud = 75;
+        double lat = 51.5072;
+        double lon = -0.1276;
+
         Weather weather = Weather
                 .builder()
                 .cloud(cloud)
@@ -53,7 +54,7 @@ class WeatherControllerTest {
                 .rain(rain)
                 .build();
 
-        when(advisorService.getWeather()).thenReturn(weather);
+        when(advisorService.getWeather(lat, lon)).thenReturn(weather);
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.get("/api/v1/weather/"))

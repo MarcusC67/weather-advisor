@@ -11,7 +11,15 @@ public class AdvisorService {
     @Autowired
     private ExternalWeatherAPIService externalWeatherAPIService;
 
-    public Weather getWeather(){
+    public Weather getWeather(double lat, double lon) {
         return externalWeatherAPIService.getWeather();
+    }
+
+    public Weather getWeather(String location) {
+
+        double lat = 51.5072;
+        double lon = -0.1276;
+
+        return getWeather(lat, lon);
     }
 }

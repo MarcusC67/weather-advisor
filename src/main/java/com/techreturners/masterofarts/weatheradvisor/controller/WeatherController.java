@@ -22,7 +22,7 @@ public class WeatherController {
     public ResponseEntity<Weather> getWeather(
             @RequestParam(required = false, defaultValue = "51.5072") double lat,
             @RequestParam(required = false, defaultValue = "-0.1276") double lon){
-        Weather weather = advisorService.getWeather();
+        Weather weather = advisorService.getWeather(lat, lon);
         return new ResponseEntity<>(weather, HttpStatus.OK);
     }
 
@@ -31,7 +31,7 @@ public class WeatherController {
     public ResponseEntity<Weather> getWeather(
             @Parameter(description = "location to get weather for", example = "London")
             @PathVariable String location){
-        Weather weather = advisorService.getWeather();
+        Weather weather = advisorService.getWeather(location);
         return new ResponseEntity<>(weather, HttpStatus.OK);
     }
 
