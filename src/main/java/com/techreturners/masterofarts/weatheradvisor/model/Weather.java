@@ -14,6 +14,30 @@ import lombok.NoArgsConstructor;
 public class Weather {
 
     /**
+     * Location name
+     */
+    @Schema(description = "Location name of the given weather")
+    String locationName;
+  
+    /**
+     * Country code
+     */
+    @Schema(description = "Country code of the given weather location")
+    String countryCode;
+  
+    /**
+     * Latitude of location
+     */
+    @Schema(description = "Latitude of given weather location")
+    double lat;
+  
+    /**
+     * Longitude of location
+     */
+    @Schema(description = "Longitude of given weather location")
+    double lon;
+   
+    /**
      * Current temperature in degrees C
      */
     @Schema(description = "Current temperature in degrees C")
