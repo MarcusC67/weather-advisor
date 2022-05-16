@@ -18,11 +18,11 @@ public class UmbrellaRecommender implements Recommender {
 
         Advice advice = null;
 
-        if(weather.getRain() <= NO_RAIN)
+        if(weather.getRain() == NO_RAIN)
             advice = Advice.No;
-        else if(weather.getRain() > 0 || weather.getRain() < LIGHT_RAIN_BOUNDARY)
+        else if(weather.getRain() > 0 && weather.getRain() < LIGHT_RAIN_BOUNDARY)
             advice = Advice.Maybe;
-        else if(weather.getRain() > LIGHT_RAIN_BOUNDARY)
+        else if(weather.getRain() >= LIGHT_RAIN_BOUNDARY)
             advice = Advice.Yes;
 
         return Recommendation.builder().item(item).advice(advice).build();
