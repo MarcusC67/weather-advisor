@@ -1,5 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.service;
 
+import com.techreturners.masterofarts.weatheradvisor.model.Location;
 import com.techreturners.masterofarts.weatheradvisor.model.Recommendation;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import com.techreturners.masterofarts.weatheradvisor.repository.ExternalWeatherAPIService;
@@ -26,5 +27,13 @@ public class AdvisorService {
 
     public Recommendation getAdvice(double lat, double lon) {
         return null;
+    }
+
+    public Recommendation getAdvice(String location) {
+
+        double lat = 51.5072;
+        double lon = -0.1276;
+
+        return getAdvice(lat, lon);
     }
 }

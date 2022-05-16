@@ -1,5 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.controller;
 
+import com.techreturners.masterofarts.weatheradvisor.model.Location;
 import com.techreturners.masterofarts.weatheradvisor.model.Recommendation;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import com.techreturners.masterofarts.weatheradvisor.service.AdvisorService;
@@ -45,5 +46,13 @@ public class WeatherController {
         return new ResponseEntity<>(recommendation, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get weather advice for specific location")
+    @GetMapping({"/recommend/{location}"})
+    public ResponseEntity<Recommendation> getAdvice(
+            @Parameter(description = "location to get weather advice for", example = "London")
+            @PathVariable String location){
+        Recommendation recommendation = advisorService.getAdvice(location);
+        return new ResponseEntity<>(recommendation, HttpStatus.OK);
+    }
 
 }
