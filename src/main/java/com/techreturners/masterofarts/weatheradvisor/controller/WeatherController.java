@@ -1,5 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.controller;
 
+import com.techreturners.masterofarts.weatheradvisor.model.Recommendation;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import com.techreturners.masterofarts.weatheradvisor.service.AdvisorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,5 +35,15 @@ public class WeatherController {
         Weather weather = advisorService.getWeather(location);
         return new ResponseEntity<>(weather, HttpStatus.OK);
     }
+
+    @Operation(summary = "Get current weather for given location, or default to London")
+    @GetMapping({"/recommend"})
+    public ResponseEntity<Recommendation> getAdvice(
+            @RequestParam(required = false, defaultValue = "51.5072") double lat,
+            @RequestParam(required = false, defaultValue = "-0.1276") double lon){
+        Recommendation recommendation = advisorService.getAdvice(lat, lon);
+        return new ResponseEntity<>(recommendation, HttpStatus.OK);
+    }
+
 
 }
