@@ -37,6 +37,10 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
 
         //OpenApiWeather mapped to Weather Model
         return Weather.builder()
+                      .locationName(openApiWeather.getLocationName())
+                      .countryCode(openApiWeather.getCountryCode())
+                      .lat(openApiWeather.getLat())
+                      .lon(openApiWeather.getLon())
                       .temp(openApiWeather.getTemp())
                       .rain(openApiWeather.getRain())
                       .cloud(openApiWeather.getCloud())

@@ -11,8 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Weather {
 
+    String locationName;
+    String countryCode;
+    double lat;
+    double lon;
     double temp;
-    long rain;
+    double rain;
     int cloud;
 
 }
