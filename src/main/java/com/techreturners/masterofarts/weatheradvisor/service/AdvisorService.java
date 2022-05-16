@@ -25,18 +25,11 @@ public class AdvisorService {
     public AdviceForLocation getAdvice(){
         Weather weather = externalWeatherAPIService.getWeather();
 
-        Location location = Location.builder()
-                                    .name(weather.getLocationName())
-                                    .countryCode(weather.getCountryCode())
-                                    .lat(weather.getLat())
-                                    .lon(weather.getLon()).build();
-
-
         List<Recommendation> recommendations = new ArrayList<>();
         for(Recommender recommender : recommenders){
             recommendations.add(recommender.recommend(weather));
         }
 
-        return AdviceForLocation.builder().location(location).recommendations(recommendations).build();
+        return AdviceForLocation.builder().location(weather.getLocation()).recommendations(recommendations).build();
     }
 }
