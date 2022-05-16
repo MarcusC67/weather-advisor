@@ -54,5 +54,10 @@ Create logic to determine how the user should prepare for a day outside (i.e. cl
   * [Weather in York](https://api.openweathermap.org/data/2.5/weather?lat=53.9614&lon=-1.0739&appid=7eff9edfb26b5501801fe33731f11aa4&units=metric)
 * UML for Sprint 1:
 ![UML for Sprint 1](doc/UML%20-%20Sprint%201.png)
+
+## Sprint 2
+* Added Swagger support for Weather and endpoints
+  * [User friendly GUI](http://localhost:8080/swagger-ui/index.html#/weather-controller/getWeather_1)
+  * [Computer friendly Restful](http://localhost:8080/v3/api-docs/weather-advisor-api)
 * Example of Open API GUI:
   ![Example of Open API GUI](doc/Example%20API%20GUI.png)
