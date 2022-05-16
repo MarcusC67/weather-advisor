@@ -6,6 +6,9 @@ import com.techreturners.masterofarts.weatheradvisor.model.Recommendation;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import org.springframework.stereotype.Component;
 
+/**
+ * Creates a recommendation for Item.Umbrella
+ */
 @Component
 public class UmbrellaRecommender implements Recommender {
 

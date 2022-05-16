@@ -25,6 +25,7 @@ public class AdvisorService {
     public AdviceForLocation getAdvice(){
         Weather weather = externalWeatherAPIService.getWeather();
 
+        //use all the recommenders to create recommendations for the given weather
         List<Recommendation> recommendations = new ArrayList<>();
         for(Recommender recommender : recommenders){
             recommendations.add(recommender.recommend(weather));
