@@ -70,6 +70,33 @@ class WeatherControllerTest {
     }
 
     @Test
+    public void testGetWeatherForLocation() throws Exception {
+
+        double temp = 17.3;
+        long rain = 0L;
+        int cloud = 75;
+        double lat = 51.5072;
+        double lon = -0.1276;
+        String location = "London";
+
+        Weather weather = Weather
+                .builder()
+                .cloud(cloud)
+                .temp(temp)
+                .rain(rain)
+                .build();
+
+        when(advisorService.getWeather(location)).thenReturn(weather);
+
+        this.mockMvcController.perform(
+                MockMvcRequestBuilders.get("/api/v1/weather/London"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.temp").value(temp))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.rain").value(rain))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cloud").value(cloud));
+    }
+
+    @Test
     public void testDefaultGetAdvice() throws Exception {
 
         double lat = 51.5072;
