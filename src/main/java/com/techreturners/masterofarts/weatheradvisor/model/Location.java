@@ -1,41 +1,36 @@
 package com.techreturners.masterofarts.weatheradvisor.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@Schema(description = "Encapsulation of the location")
-
+@Schema(description = "Encapsulation of a Location")
 public class Location {
 
     /**
-     * Name of the location
+     * Location name
      */
-    @Schema(description = "Name of the location")
+    @Schema(description = "Location name")
     String name;
 
     /**
-     * Country
+     * Country code
      */
-    @Schema(description = "Country code of the location")
-    String country;
+    @Schema(description = "Country code of location")
+    String countryCode;
 
     /**
-     * Longitude
+     * Latitude of location
      */
-    @Schema(description = "Longitude of the location")
-    Double lon;
+    @Schema(description = "Latitude of location")
+    double lat;
 
     /**
-     * Latitude
+     * Longitude of location
      */
-    @Schema(description = "Latitude of the location")
-    Double lat;
+    @Schema(description = "Longitude of location")
+    double lon;
 
 }

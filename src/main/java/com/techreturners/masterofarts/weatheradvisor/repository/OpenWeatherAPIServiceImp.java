@@ -1,5 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.repository;
 
+import com.techreturners.masterofarts.weatheradvisor.model.Location;
 import com.techreturners.masterofarts.weatheradvisor.model.OpenApiWeather;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +36,15 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
                 OpenApiWeather.class
         );
 
+        Location location = Location.builder()
+                                    .name(openApiWeather.getLocationName())
+                                    .countryCode(openApiWeather.getCountryCode())
+                                    .lat(openApiWeather.getLat())
+                                    .lon(openApiWeather.getLon()).build();
+
         //OpenApiWeather mapped to Weather Model
         return Weather.builder()
-                      .locationName(openApiWeather.getLocationName())
-                      .countryCode(openApiWeather.getCountryCode())
-                      .lat(openApiWeather.getLat())
-                      .lon(openApiWeather.getLon())
+                      .location(location)
                       .temp(openApiWeather.getTemp())
                       .rain(openApiWeather.getRain())
                       .cloud(openApiWeather.getCloud())
