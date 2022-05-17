@@ -1,7 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.service;
 
-import com.techreturners.masterofarts.weatheradvisor.model.Location;
-import com.techreturners.masterofarts.weatheradvisor.model.Recommendation;
+import com.techreturners.masterofarts.weatheradvisor.model.AdviceForLocation;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import com.techreturners.masterofarts.weatheradvisor.repository.ExternalWeatherAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,11 @@ public class AdvisorService {
         return getWeather(lat, lon);
     }
 
-    public Recommendation getAdvice(double lat, double lon) {
+    public AdviceForLocation getAdvice(double lat, double lon) {
         return null;
     }
 
-    public Recommendation getAdvice(String location) {
+    public AdviceForLocation getAdvice(String location) {
 
         double lat = 51.5072;
         double lon = -0.1276;

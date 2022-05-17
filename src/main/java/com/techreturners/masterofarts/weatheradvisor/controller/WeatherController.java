@@ -1,7 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.controller;
 
-import com.techreturners.masterofarts.weatheradvisor.model.Location;
-import com.techreturners.masterofarts.weatheradvisor.model.Recommendation;
+import com.techreturners.masterofarts.weatheradvisor.model.AdviceForLocation;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import com.techreturners.masterofarts.weatheradvisor.service.AdvisorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,20 +38,20 @@ public class WeatherController {
 
     @Operation(summary = "Get current weather for given location, or default to London")
     @GetMapping({"/recommend"})
-    public ResponseEntity<Recommendation> getAdvice(
+    public ResponseEntity<AdviceForLocation> getAdvice(
             @RequestParam(required = false, defaultValue = "51.5072") double lat,
             @RequestParam(required = false, defaultValue = "-0.1276") double lon){
-        Recommendation recommendation = advisorService.getAdvice(lat, lon);
-        return new ResponseEntity<>(recommendation, HttpStatus.OK);
+        AdviceForLocation adviceForLocation = advisorService.getAdvice(lat, lon);
+        return new ResponseEntity<>(adviceForLocation, HttpStatus.OK);
     }
 
     @Operation(summary = "Get weather advice for specific location")
     @GetMapping({"/recommend/{location}"})
-    public ResponseEntity<Recommendation> getAdvice(
+    public ResponseEntity<AdviceForLocation> getAdvice(
             @Parameter(description = "location to get weather advice for", example = "London")
             @PathVariable String location){
-        Recommendation recommendation = advisorService.getAdvice(location);
-        return new ResponseEntity<>(recommendation, HttpStatus.OK);
+        AdviceForLocation adviceForLocation = advisorService.getAdvice(location);
+        return new ResponseEntity<>(adviceForLocation, HttpStatus.OK);
     }
 
 }

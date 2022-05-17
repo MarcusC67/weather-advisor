@@ -6,27 +6,36 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(description = "Encapsulation of the current weather")
+@Schema(description = "Encapsulation of the advice")
 
 public class Recommendation {
 
-    /**
-     * Location
-     */
-    @Schema(description = "Location of the recommendation")
-    Location location;
+    public enum WeatherAdvice {
+        Yes,
+        No,
+        Maybe
+    }
+
+    public enum AdviceItem {
+        Sunscreen,
+        Umbrella,
+        WoollyHat
+    }
 
     /**
-     * Recommendations
+     * Name of item
      */
-    @Schema(description = "Recommendations for the location")
-    ArrayList <Advice> recommendations;
+    @Schema(description = "Name of item")
+    AdviceItem item;
 
+    /**
+     * Advice for the item
+     */
+    @Schema(description = "Advice for the item")
+    WeatherAdvice advice;
 
 }
