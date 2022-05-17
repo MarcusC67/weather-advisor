@@ -40,29 +40,33 @@ class AdvisorServiceTest {
         double temp = 17.3;
         long rain = 0L;
         int cloud = 75;
+        double lat = 51.5072;
+        double lon = -0.1276;
         Weather weather = Weather
                 .builder()
                 .cloud(cloud)
                 .temp(temp)
                 .rain(rain)
                 .build();
-        when(mockExternalWeatherAPIService.getWeather()).thenReturn(weather);
+        when(mockExternalWeatherAPIService.getWeather(lat, lon)).thenReturn(weather);
 
-        assertThat(advisorService.getWeather()).isEqualTo(weather);
+        assertThat(advisorService.getWeather(lat, lon)).isEqualTo(weather);
     }
 
     @Test
     public void testGetAdvice() {
 
-
         //Arrange
+        double lat = 51.5072;
+        double lon = -0.1276;
+
         recommenders.add(mockUmbrellaRecommender);
 
         Location location = Location.builder()
                 .name("London")
                 .countryCode("GB")
-                .lat(51.509865)
-                .lon(-0.118092)
+                .lat(lat)
+                .lon(lon)
                 .build();
 
         Weather weather = Weather.builder()
@@ -77,11 +81,11 @@ class AdvisorServiceTest {
                 .advice(Advice.Maybe)
                 .build();
 
-        when(mockExternalWeatherAPIService.getWeather()).thenReturn(weather);
+        when(mockExternalWeatherAPIService.getWeather(lat, lon)).thenReturn(weather);
         when(mockUmbrellaRecommender.recommend(weather)).thenReturn(recommendation);
 
         //Act
-        AdviceForLocation actualAdviceForLocation = advisorService.getAdvice();
+        AdviceForLocation actualAdviceForLocation = advisorService.getAdvice(lat, lon);
 
         //Assert Location is correct
         Location actualLocation = actualAdviceForLocation.getLocation();

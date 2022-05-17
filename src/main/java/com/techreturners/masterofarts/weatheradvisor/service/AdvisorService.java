@@ -18,12 +18,21 @@ public class AdvisorService {
     @Autowired
     private List<Recommender> recommenders;
 
-    public Weather getWeather(){
-        return externalWeatherAPIService.getWeather();
+    public Weather getWeather(double lat, double lon){
+        return externalWeatherAPIService.getWeather(lat, lon);
     }
 
-    public AdviceForLocation getAdvice(){
-        Weather weather = externalWeatherAPIService.getWeather();
+    public Weather getWeather(String location) {
+
+        double lat = 51.5072;
+        double lon = -0.1276;
+
+        return getWeather(lat, lon);
+    }
+
+    public AdviceForLocation getAdvice(double lat, double lon){
+
+        Weather weather = externalWeatherAPIService.getWeather(lat, lon);
 
         //use all the recommenders to create recommendations for the given weather
         List<Recommendation> recommendations = new ArrayList<>();
@@ -33,4 +42,13 @@ public class AdvisorService {
 
         return AdviceForLocation.builder().location(weather.getLocation()).recommendations(recommendations).build();
     }
+
+    public AdviceForLocation getAdvice(String location) {
+
+        double lat = 51.5072;
+        double lon = -0.1276;
+
+        return getAdvice(lat, lon);
+    }
+
 }

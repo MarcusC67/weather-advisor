@@ -1,7 +1,7 @@
 package com.techreturners.masterofarts.weatheradvisor.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.techreturners.masterofarts.weatheradvisor.model.Weather;
+import com.techreturners.masterofarts.weatheradvisor.model.*;
 import com.techreturners.masterofarts.weatheradvisor.service.AdvisorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+
 import static org.mockito.Mockito.when;
 
 @AutoConfigureMockMvc
@@ -42,10 +43,12 @@ class WeatherControllerTest {
     @Test
     public void testDefaultGetWeather() throws Exception {
 
-
         double temp = 17.3;
         long rain = 0L;
         int cloud = 75;
+        double lat = 51.5072;
+        double lon = -0.1276;
+
         Weather weather = Weather
                 .builder()
                 .cloud(cloud)
@@ -53,15 +56,93 @@ class WeatherControllerTest {
                 .rain(rain)
                 .build();
 
-        when(advisorService.getWeather()).thenReturn(weather);
+        when(advisorService.getWeather(lat, lon)).thenReturn(weather);
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/weather/"))
+                MockMvcRequestBuilders.get("/api/v1/weather/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.temp").value(temp))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.rain").value(rain))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.cloud").value(cloud));
     }
 
+    @Test
+    public void testGetWeatherForLocation() throws Exception {
+
+        double temp = 17.3;
+        long rain = 0L;
+        int cloud = 75;
+        double lat = 51.5072;
+        double lon = -0.1276;
+        String location = "London";
+
+        Weather weather = Weather
+                .builder()
+                .cloud(cloud)
+                .temp(temp)
+                .rain(rain)
+                .build();
+
+        when(advisorService.getWeather(location)).thenReturn(weather);
+
+        this.mockMvcController.perform(
+                MockMvcRequestBuilders.get("/api/v1/weather/London"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.temp").value(temp))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.rain").value(rain))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cloud").value(cloud));
+    }
+
+    @Test
+    public void testDefaultGetAdvice() throws Exception {
+
+        double lat = 51.5072;
+        double lon = -0.1276;
+        Location location = Location.builder().name("London").countryCode("GB").lat(lat).lon(lon).build();
+        Recommendation recommendation = Recommendation.builder().item(Item.Umbrella).advice(Advice.Yes).build();
+        ArrayList<Recommendation> arrayList = new ArrayList<>();
+        arrayList.add(recommendation);
+
+        AdviceForLocation adviceForLocation = AdviceForLocation
+                .builder()
+                .location(location)
+                .recommendations(arrayList)
+                .build();
+
+        when(advisorService.getAdvice(lat, lon)).thenReturn(adviceForLocation);
+
+        this.mockMvcController.perform(
+                MockMvcRequestBuilders.get("/api/v1/recommend/"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.location.lat").value(lat))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.location.lon").value(lon))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations[0].item").value(Item.Umbrella.toString()));
+    }
+
+    @Test
+    public void testGetAdviceForLocation() throws Exception {
+
+        double lat = 51.5072;
+        double lon = -0.1276;
+        Location location = Location.builder().name("London").countryCode("GB").lat(lat).lon(lon).build();
+        Recommendation recommendation = Recommendation.builder().item(Item.Umbrella).advice(Advice.Yes).build();
+        ArrayList<Recommendation> arrayList = new ArrayList<>();
+        arrayList.add(recommendation);
+
+        AdviceForLocation adviceForLocation = AdviceForLocation
+                .builder()
+                .location(location)
+                .recommendations(arrayList)
+                .build();
+
+        when(advisorService.getAdvice("London")).thenReturn(adviceForLocation);
+
+        this.mockMvcController.perform(
+                MockMvcRequestBuilders.get("/api/v1/recommend/London"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.location.lat").value(lat))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.location.lon").value(lon))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations[0].item").value(Item.Umbrella.toString()));
+    }
 
 }
