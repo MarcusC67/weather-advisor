@@ -1,10 +1,7 @@
 package com.techreturners.masterofarts.weatheradvisor.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.techreturners.masterofarts.weatheradvisor.model.Recommendation;
-import com.techreturners.masterofarts.weatheradvisor.model.Location;
-import com.techreturners.masterofarts.weatheradvisor.model.AdviceForLocation;
-import com.techreturners.masterofarts.weatheradvisor.model.Weather;
+import com.techreturners.masterofarts.weatheradvisor.model.*;
 import com.techreturners.masterofarts.weatheradvisor.service.AdvisorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -101,8 +98,8 @@ class WeatherControllerTest {
 
         double lat = 51.5072;
         double lon = -0.1276;
-        Location location = Location.builder().name("London").country("GB").lat(lat).lon(lon).build();
-        Recommendation recommendation = Recommendation.builder().item(Recommendation.AdviceItem.Sunscreen).advice(Recommendation.WeatherAdvice.Yes).build();
+        Location location = Location.builder().name("London").countryCode("GB").lat(lat).lon(lon).build();
+        Recommendation recommendation = Recommendation.builder().item(Item.Umbrella).advice(Advice.Yes).build();
         ArrayList<Recommendation> arrayList = new ArrayList<>();
         arrayList.add(recommendation);
 
@@ -119,7 +116,7 @@ class WeatherControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.location.lat").value(lat))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.location.lon").value(lon))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations[0].item").value(Recommendation.AdviceItem.Sunscreen.toString()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations[0].item").value(Item.Umbrella.toString()));
     }
 
     @Test
@@ -127,8 +124,8 @@ class WeatherControllerTest {
 
         double lat = 51.5072;
         double lon = -0.1276;
-        Location location = Location.builder().name("London").country("GB").lat(lat).lon(lon).build();
-        Recommendation recommendation = Recommendation.builder().item(Recommendation.AdviceItem.Sunscreen).advice(Recommendation.WeatherAdvice.Yes).build();
+        Location location = Location.builder().name("London").countryCode("GB").lat(lat).lon(lon).build();
+        Recommendation recommendation = Recommendation.builder().item(Item.Umbrella).advice(Advice.Yes).build();
         ArrayList<Recommendation> arrayList = new ArrayList<>();
         arrayList.add(recommendation);
 
@@ -145,7 +142,7 @@ class WeatherControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.location.lat").value(lat))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.location.lon").value(lon))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations[0].item").value(Recommendation.AdviceItem.Sunscreen.toString()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations[0].item").value(Item.Umbrella.toString()));
     }
 
 }

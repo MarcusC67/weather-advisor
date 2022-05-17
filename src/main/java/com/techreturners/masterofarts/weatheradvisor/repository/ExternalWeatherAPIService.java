@@ -11,5 +11,5 @@ public interface ExternalWeatherAPIService {
      * Gets the current weather for location 'London' using an External API
      * @return - A Weather object representing the current weather.
      */
-    Weather getWeather();
+    Weather getWeather(double lat, double lon);
 }
