@@ -47,7 +47,7 @@ public class Weather {
      * Rainfall in last hour in mm
      */
     @Schema(description = "Rainfall in last hour in mm")
-    long rain;
+    double rain;
 
     /**
      * Current cloud cover as %
