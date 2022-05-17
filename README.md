@@ -61,3 +61,4 @@ Create logic to determine how the user should prepare for a day outside (i.e. cl
   * [Computer friendly Restful](http://localhost:8080/v3/api-docs/weather-advisor-api)
 * Example of Open API GUI:
   ![Example of Open API GUI](doc/Example%20API%20GUI.png)
+* Containerisation using Docker - [see separate document](doc/docker.md)
