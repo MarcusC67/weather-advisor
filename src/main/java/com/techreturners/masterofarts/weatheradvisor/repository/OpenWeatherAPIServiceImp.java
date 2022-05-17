@@ -38,18 +38,18 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
         );
 
         Location location = Location.builder()
-                                    .name(openApiWeather.getLocationName())
-                                    .countryCode(openApiWeather.getCountryCode())
-                                    .lat(openApiWeather.getLat())
-                                    .lon(openApiWeather.getLon()).build();
+                .name(openApiWeather.getLocationName())
+                .countryCode(openApiWeather.getCountryCode())
+                .lat(openApiWeather.getLat())
+                .lon(openApiWeather.getLon()).build();
 
         //OpenApiWeather mapped to Weather Model
         return Weather.builder()
-                      .location(location)
-                      .temp(openApiWeather.getTemp())
-                      .rain(openApiWeather.getRain())
-                      .cloud(openApiWeather.getCloud())
-                      .build();
+                .location(location)
+                .temp(openApiWeather.getTemp())
+                .rain(openApiWeather.getRain())
+                .cloud(openApiWeather.getCloud())
+                .build();
     }
 
     @Override
@@ -67,4 +67,5 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
                 .lat(openApiLocation.getLat())
                 .lon(openApiLocation.getLon()).build();
     }
+
 }
