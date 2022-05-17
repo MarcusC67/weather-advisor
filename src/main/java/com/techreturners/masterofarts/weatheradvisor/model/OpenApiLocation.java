@@ -8,15 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonDeserialize(using = OpenApiWeatherDeserializer.class)
-public class OpenApiWeather {
+@JsonDeserialize(using = OpenApiLocationDeserializer.class)
+public class OpenApiLocation {
 
-    String locationName;
+    String name;
     String countryCode;
     double lat;
     double lon;
-    double temp;
-    double rain;
-    int cloud;
 
 }
