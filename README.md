@@ -3,7 +3,10 @@
 ## Working brief
 
 **Weather API** – get weather information for an inputted location. 
-Create logic to determine how the user should prepare for a day outside (i.e. clothes/sunscreen/umbrella/coat etc).
+
+* Create logic to determine how the user should prepare for a day outside (i.e. clothes/sunscreen/umbrella/coat etc).
+* Create [Docker container](doc/docker.md) ready for deployment to AWS
+* Deploy to AWS using [Elastic Beanstalk](doc/AWS.md)
 
 ### Result of brainstorm
 * Our aspiration is to create a weather adviser as per the brief
@@ -62,3 +65,11 @@ Create logic to determine how the user should prepare for a day outside (i.e. cl
 * Example of Open API GUI:
   ![Example of Open API GUI](doc/Example%20API%20GUI.png)
 * Containerisation using Docker - [see separate document](doc/docker.md)
+* Added /recommend endpoint
+* Added / endpoint for service health
+
+## Sprint 3
+* Added Actuator function from Sprint Boot, and created an Info bean
+* Updated instructions for running in Docker containers
+* Added instruction for AWS deployment with environment variables
+* Expanded /weather and /advice endpoints to take location as string, or lat and lon as coordinates
