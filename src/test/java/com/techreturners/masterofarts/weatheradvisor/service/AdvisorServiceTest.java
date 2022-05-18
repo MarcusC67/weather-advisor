@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -54,6 +53,38 @@ class AdvisorServiceTest {
     }
 
     @Test
+    public void testGetWeatherForLocation() {
+
+        //Arrange
+        double temp = 17.3;
+        long rain = 0L;
+        int cloud = 75;
+        double lat = 51.5072;
+        double lon = -0.1276;
+        String locationName = "London";
+
+        Location location = Location.builder()
+                .name(locationName)
+                .countryCode("GB")
+                .lat(lat)
+                .lon(lon)
+                .build();
+
+        Weather weather = Weather
+                .builder()
+                .cloud(cloud)
+                .temp(temp)
+                .rain(rain)
+                .build();
+
+        when(mockExternalWeatherAPIService.getLocationFromName(locationName)).thenReturn(location);
+        when(mockExternalWeatherAPIService.getWeather(location.getLat(), location.getLon())).thenReturn(weather);
+
+        //Assert weather returned for location is correct
+        assertThat(advisorService.getWeather(locationName)).isEqualTo(weather);
+    }
+
+    @Test
     public void testGetAdvice() {
 
         //Arrange
@@ -81,23 +112,53 @@ class AdvisorServiceTest {
                 .advice(Advice.Maybe)
                 .build();
 
+        List<Recommendation> recommendations = List.of(recommendation);
+
+        AdviceForLocation expected = AdviceForLocation.builder().location(location).recommendations(recommendations).build();
+
         when(mockExternalWeatherAPIService.getWeather(lat, lon)).thenReturn(weather);
         when(mockUmbrellaRecommender.recommend(weather)).thenReturn(recommendation);
 
-        //Act
-        AdviceForLocation actualAdviceForLocation = advisorService.getAdvice(lat, lon);
+        assertThat(advisorService.getAdvice(lat, lon)).isEqualTo(expected);
+    }
 
-        //Assert Location is correct
-        Location actualLocation = actualAdviceForLocation.getLocation();
-        assertEquals(location.getName(), actualLocation.getName());
-        assertEquals(location.getCountryCode(), actualLocation.getCountryCode());
-        assertEquals(location.getLat(), actualLocation.getLat());
-        assertEquals(location.getLon(), actualLocation.getLon());
+    @Test
+    public void testGetAdviceForLocation() {
 
-        //Assert recommendations are correct
-        Recommendation actualUmbrellaRecommendation = actualAdviceForLocation.getRecommendations().get(0);
-        assertEquals(recommendation.getItem(), actualUmbrellaRecommendation.getItem());
-        assertEquals(recommendation.getAdvice(), actualUmbrellaRecommendation.getAdvice());
+        //Arrange
+        String locationName = "London";
+
+        recommenders.add(mockUmbrellaRecommender);
+
+        Location location = Location.builder()
+                .name(locationName)
+                .countryCode("GB")
+                .lat(51.5072)
+                .lon(-0.1276)
+                .build();
+
+        Weather weather = Weather.builder()
+                .location(location)
+                .temp(17.5)
+                .rain(0.5)
+                .cloud(75)
+                .build();
+
+        Recommendation recommendation = Recommendation.builder()
+                .item(Item.Umbrella)
+                .advice(Advice.Maybe)
+                .build();
+
+        List<Recommendation> recommendations = List.of(recommendation);
+
+        AdviceForLocation expected = AdviceForLocation.builder().location(location).recommendations(recommendations).build();
+
+        when(mockExternalWeatherAPIService.getLocationFromName(locationName)).thenReturn(location);
+        when(mockExternalWeatherAPIService.getWeather(location.getLat(), location.getLon())).thenReturn(weather);
+        when(mockUmbrellaRecommender.recommend(weather)).thenReturn(recommendation);
+
+        assertThat(advisorService.getAdvice(locationName)).isEqualTo(expected);
+
     }
 
 }

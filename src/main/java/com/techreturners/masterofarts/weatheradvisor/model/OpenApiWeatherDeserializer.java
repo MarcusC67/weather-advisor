@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Deserializes a JSON returned from the external OpenWeather API to an OpenApiWeather object
  */
-public class OpenApiDeserializer extends JsonDeserializer {
+public class OpenApiWeatherDeserializer extends JsonDeserializer {
 
     @Override
     public OpenApiWeather deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {

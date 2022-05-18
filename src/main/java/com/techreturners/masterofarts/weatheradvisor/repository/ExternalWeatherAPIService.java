@@ -1,5 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.repository;
 
+import com.techreturners.masterofarts.weatheradvisor.model.Location;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 
 /**
@@ -12,4 +13,7 @@ public interface ExternalWeatherAPIService {
      * @return - A Weather object representing the current weather.
      */
     Weather getWeather(double lat, double lon);
+
+    Location getLocationFromName(String name);
+
 }
