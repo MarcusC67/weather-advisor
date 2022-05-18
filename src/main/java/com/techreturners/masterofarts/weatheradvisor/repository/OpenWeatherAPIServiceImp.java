@@ -24,7 +24,9 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
 
     @Autowired
     public OpenWeatherAPIServiceImp(RestTemplateBuilder builder) {
-        this.currentWeatherRestTemplate = builder.errorHandler(new CurrentWeatherResponseErrorHandler()).build();
+        this.currentWeatherRestTemplate = builder
+                .errorHandler(new CurrentWeatherResponseErrorHandler())
+                .build();
     }
 
     @Override
