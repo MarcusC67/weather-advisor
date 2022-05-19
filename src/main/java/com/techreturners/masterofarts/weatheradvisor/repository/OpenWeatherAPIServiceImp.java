@@ -1,6 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.repository;
 
-import com.techreturners.masterofarts.weatheradvisor.error.openweather.CurrentWeatherResponseErrorHandler;
+import com.techreturners.masterofarts.weatheradvisor.error.OpenWeatherResponseErrorHandler;
 import com.techreturners.masterofarts.weatheradvisor.model.Location;
 import com.techreturners.masterofarts.weatheradvisor.model.OpenApiLocation;
 import com.techreturners.masterofarts.weatheradvisor.model.OpenApiWeather;
@@ -23,22 +23,20 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
     @Value("${openapi.key}")
     private String API_KEY;
 
-    private RestTemplate currentWeatherRestTemplate;
-    private RestTemplate geoLocationRestTemplate;
+    private RestTemplate restTemplate;
 
     @Autowired
     public OpenWeatherAPIServiceImp(RestTemplateBuilder builder) {
-        this.currentWeatherRestTemplate = builder
-                .errorHandler(new CurrentWeatherResponseErrorHandler())
+        this.restTemplate = builder
+                .errorHandler(new OpenWeatherResponseErrorHandler())
                 .build();
-        this.geoLocationRestTemplate = builder.build();
     }
 
     @Override
     public Weather getWeather(double lat, double lon) {
 
             //Api response deserialized into OpenAPI WeatherObject
-            OpenApiWeather openApiWeather = currentWeatherRestTemplate.getForObject(
+            OpenApiWeather openApiWeather = restTemplate.getForObject(
                     String.format(DOMAIN_URL + WEATHER_ENDPOINT, API_KEY, lat, lon, UNITS),
                     OpenApiWeather.class
             );
@@ -63,11 +61,11 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
     @Override
     public Location getLocationFromName(String name) {
         //Api response deserialized into OpenAPI WeatherObject
-        OpenApiLocation openApiLocation = geoLocationRestTemplate.getForObject(
+        OpenApiLocation openApiLocation = restTemplate.getForObject(
                 String.format(DOMAIN_URL + GEO_ENDPOINT, API_KEY, name, LIMIT),
                 OpenApiLocation.class
         );
-
+        
         //OpenApiLocation mapped to Location Model
         return Location.builder()
                 .name(openApiLocation.getName())
