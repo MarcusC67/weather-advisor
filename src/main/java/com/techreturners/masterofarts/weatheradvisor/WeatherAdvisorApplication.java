@@ -25,6 +25,8 @@ public class WeatherAdvisorApplication {
 		return GroupedOpenApi.builder()
 				.group("weather-advisor-api")
 				.pathsToMatch("/api/v1/**")
+				.group("health-status-api")
+				.pathsToMatch("/**")
 				.build();
 	}
 
