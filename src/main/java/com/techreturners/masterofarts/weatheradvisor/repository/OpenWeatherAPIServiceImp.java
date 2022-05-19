@@ -65,7 +65,7 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
                 String.format(DOMAIN_URL + GEO_ENDPOINT, API_KEY, name, LIMIT),
                 OpenApiLocation.class
         );
-        
+
         //OpenApiLocation mapped to Location Model
         return Location.builder()
                 .name(openApiLocation.getName())

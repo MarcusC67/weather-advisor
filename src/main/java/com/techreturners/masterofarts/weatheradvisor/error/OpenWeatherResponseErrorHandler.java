@@ -22,6 +22,7 @@ public class OpenWeatherResponseErrorHandler extends DefaultResponseErrorHandler
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
 
+        //Create parameters to build exception
         HttpStatus statusCode = HttpStatus.resolve(response.getRawStatusCode());
         String statusText = response.getStatusText();
         HttpHeaders headers = response.getHeaders();
@@ -29,9 +30,13 @@ public class OpenWeatherResponseErrorHandler extends DefaultResponseErrorHandler
         Charset charset = this.getCharset(response);
         String message = this.getErrorMessage(statusCode.value(), statusText, body, charset);
 
+        //throw error
         throw new ExternalAPIException(message, statusCode, statusText, headers, body, charset);
     }
 
+    /**
+     * From DefaultResponseErrorHandler
+     */
     protected String getErrorMessage(int rawStatusCode, String statusText, @Nullable byte[] responseBody, @Nullable Charset charset) {
         String preface = rawStatusCode + " " + statusText + ": ";
         if (ObjectUtils.isEmpty(responseBody)) {
