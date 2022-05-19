@@ -22,12 +22,10 @@ public class AdvisorService {
         return externalWeatherAPIService.getWeather(lat, lon);
     }
 
-    public Weather getWeather(String location) {
+    public Weather getWeather(String locationName) {
 
-        double lat = 51.5072;
-        double lon = -0.1276;
-
-        return getWeather(lat, lon);
+        Location location = externalWeatherAPIService.getLocationFromName(locationName);
+        return getWeather(location.getLat(), location.getLon());
     }
 
     public AdviceForLocation getAdvice(double lat, double lon){
@@ -43,12 +41,10 @@ public class AdvisorService {
         return AdviceForLocation.builder().location(weather.getLocation()).recommendations(recommendations).build();
     }
 
-    public AdviceForLocation getAdvice(String location) {
+    public AdviceForLocation getAdvice(String locationName) {
 
-        double lat = 51.5072;
-        double lon = -0.1276;
-
-        return getAdvice(lat, lon);
+        Location location = externalWeatherAPIService.getLocationFromName(locationName);
+        return getAdvice(location.getLat(), location.getLon());
     }
 
 }
