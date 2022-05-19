@@ -1,5 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.controller;
 
+import com.techreturners.masterofarts.weatheradvisor.model.AdviceForLocation;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import com.techreturners.masterofarts.weatheradvisor.service.AdvisorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +23,7 @@ public class WeatherController {
     public ResponseEntity<Weather> getWeather(
             @RequestParam(required = false, defaultValue = "51.5072") double lat,
             @RequestParam(required = false, defaultValue = "-0.1276") double lon){
-        Weather weather = advisorService.getWeather();
+        Weather weather = advisorService.getWeather(lat, lon);
         return new ResponseEntity<>(weather, HttpStatus.OK);
     }
 
@@ -31,8 +32,26 @@ public class WeatherController {
     public ResponseEntity<Weather> getWeather(
             @Parameter(description = "location to get weather for", example = "London")
             @PathVariable String location){
-        Weather weather = advisorService.getWeather();
+        Weather weather = advisorService.getWeather(location);
         return new ResponseEntity<>(weather, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get current weather for given location, or default to London")
+    @GetMapping({"/recommend"})
+    public ResponseEntity<AdviceForLocation> getAdvice(
+            @RequestParam(required = false, defaultValue = "51.5072") double lat,
+            @RequestParam(required = false, defaultValue = "-0.1276") double lon){
+        AdviceForLocation adviceForLocation = advisorService.getAdvice(lat, lon);
+        return new ResponseEntity<>(adviceForLocation, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get weather advice for specific location")
+    @GetMapping({"/recommend/{location}"})
+    public ResponseEntity<AdviceForLocation> getAdvice(
+            @Parameter(description = "location to get weather advice for", example = "London")
+            @PathVariable String location){
+        AdviceForLocation adviceForLocation = advisorService.getAdvice(location);
+        return new ResponseEntity<>(adviceForLocation, HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.repository;
 
+import com.techreturners.masterofarts.weatheradvisor.model.Location;
 import com.techreturners.masterofarts.weatheradvisor.model.OpenApiWeather;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,6 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
 
     private static final String URL = "https://api.openweathermap.org/data/2.5/weather?appid=%s&lat=%s&lon=%s&units=%s";
     private static final String UNITS = "metric";
-    private static final double LAT = 51.509865;
-    private static final double LON = -0.118092;
 
     @Value("${openapi.key}")
     private String API_KEY;
@@ -28,19 +27,22 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
     }
 
     @Override
-    public Weather getWeather() {
+    public Weather getWeather(double lat, double lon) {
         //Api response deserialized into OpenAPI WeatherObject
         OpenApiWeather openApiWeather = restTemplate.getForObject(
-                String.format(URL, API_KEY, LAT, LON, UNITS),
+                String.format(URL, API_KEY, lat, lon, UNITS),
                 OpenApiWeather.class
         );
 
+        Location location = Location.builder()
+                                    .name(openApiWeather.getLocationName())
+                                    .countryCode(openApiWeather.getCountryCode())
+                                    .lat(openApiWeather.getLat())
+                                    .lon(openApiWeather.getLon()).build();
+
         //OpenApiWeather mapped to Weather Model
         return Weather.builder()
-                      .locationName(openApiWeather.getLocationName())
-                      .countryCode(openApiWeather.getCountryCode())
-                      .lat(openApiWeather.getLat())
-                      .lon(openApiWeather.getLon())
+                      .location(location)
                       .temp(openApiWeather.getTemp())
                       .rain(openApiWeather.getRain())
                       .cloud(openApiWeather.getCloud())
