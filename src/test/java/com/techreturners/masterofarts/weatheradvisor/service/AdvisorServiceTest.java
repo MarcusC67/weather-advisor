@@ -4,7 +4,6 @@ import com.techreturners.masterofarts.weatheradvisor.model.*;
 import com.techreturners.masterofarts.weatheradvisor.recommender.Recommender;
 import com.techreturners.masterofarts.weatheradvisor.recommender.UmbrellaRecommender;
 import com.techreturners.masterofarts.weatheradvisor.repository.ExternalWeatherAPIService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -158,6 +156,39 @@ class AdvisorServiceTest {
         when(mockUmbrellaRecommender.recommend(weather)).thenReturn(recommendation);
 
         assertThat(advisorService.getAdvice(locationName)).isEqualTo(expected);
+
+    }
+
+    @Test
+    public void testFindLocation() {
+
+        //Arrange
+        String locationName = "London";
+
+        Location location = Location.builder()
+                .name(locationName)
+                .countryCode("GB")
+                .lat(51.5072)
+                .lon(-0.1276)
+                .build();
+
+        double lat2 = 42.9836747;
+        double lon2 = -81.2496068;
+        String countryCode2 = "CA";
+        Location location2 = Location.builder()
+                .name(locationName)
+                .countryCode(countryCode2)
+                .lat(lat2)
+                .lon(lon2)
+                .build();
+
+        List<Location> list = new ArrayList<>();
+        list.add(location);
+        list.add(location2);
+
+        when(mockExternalWeatherAPIService.getLocationsFromName(locationName)).thenReturn(list);
+
+        assertThat(advisorService.findLocation(locationName)).isEqualTo(list);
 
     }
 
