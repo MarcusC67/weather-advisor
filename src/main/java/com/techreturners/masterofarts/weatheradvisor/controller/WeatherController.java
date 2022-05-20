@@ -54,4 +54,16 @@ public class WeatherController {
         return new ResponseEntity<>(adviceForLocation, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get matching locations to given location")
+    @GetMapping({"/find/{location}"})
+    public ResponseEntity<Weather> findLocation(
+            @Parameter(description = "location to find", example = "London")
+            @PathVariable(required = false) String location){
+        if (location == null)
+            location = "London";
+        // dummy return while testing
+        Weather weather = advisorService.getWeather(location);
+        return new ResponseEntity<>(weather, HttpStatus.OK);
+    }
+
 }
