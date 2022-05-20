@@ -73,3 +73,8 @@
 * Updated instructions for running in Docker containers
 * Added instruction for AWS deployment with environment variables
 * Expanded /weather and /advice endpoints to take location as string, or lat and lon as coordinates
+
+## Sprint 4
+* Expose geo-data to endpoints
+* Expand advice to more items, and if necessary expand weather data retrieved from repository
+* Reorganise the package structure to help keep it simple
