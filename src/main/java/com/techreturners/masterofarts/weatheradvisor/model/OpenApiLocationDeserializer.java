@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.techreturners.masterofarts.weatheradvisor.error.LocationNotFoundException;
 
 import java.io.IOException;
 
@@ -18,6 +19,8 @@ public class OpenApiLocationDeserializer extends JsonDeserializer {
 
         //Get root node
         JsonNode locationNode = jsonParser.getCodec().readTree(jsonParser);
+
+        if (locationNode.isEmpty()) throw new LocationNotFoundException();
 
         OpenApiLocation location = new OpenApiLocation();
 

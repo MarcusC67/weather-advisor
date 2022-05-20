@@ -1,5 +1,6 @@
 package com.techreturners.masterofarts.weatheradvisor.repository;
 
+import com.techreturners.masterofarts.weatheradvisor.error.OpenWeatherResponseErrorHandler;
 import com.techreturners.masterofarts.weatheradvisor.model.Location;
 import com.techreturners.masterofarts.weatheradvisor.model.OpenApiLocation;
 import com.techreturners.masterofarts.weatheradvisor.model.OpenApiWeather;
@@ -14,8 +15,8 @@ import org.springframework.web.client.RestTemplate;
 public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
 
     private static final String DOMAIN_URL = "https://api.openweathermap.org/";
-    private static final String GEO_ENDPOINT_URL = "geo/1.0/direct?appid=%s&q=%s&limit=%s";
-    private static final String WEATHER_ENDPOINT_URL = "data/2.5/weather?appid=%s&lat=%s&lon=%s&units=%s";
+    private static final String GEO_ENDPOINT = "geo/1.0/direct?appid=%s&q=%s&limit=%s";
+    private static final String WEATHER_ENDPOINT = "data/2.5/weather?appid=%s&lat=%s&lon=%s&units=%s";
     private static final String UNITS = "metric";
     private static final int LIMIT = 1;
 
@@ -26,37 +27,42 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
 
     @Autowired
     public OpenWeatherAPIServiceImp(RestTemplateBuilder builder) {
-        this.restTemplate = builder.build();
+        this.restTemplate = builder
+                .errorHandler(new OpenWeatherResponseErrorHandler())
+                .build();
     }
 
     @Override
     public Weather getWeather(double lat, double lon) {
-        //Api response deserialized into OpenAPI WeatherObject
-        OpenApiWeather openApiWeather = restTemplate.getForObject(
-                String.format(DOMAIN_URL + WEATHER_ENDPOINT_URL, API_KEY, lat, lon, UNITS),
-                OpenApiWeather.class
-        );
 
-        Location location = Location.builder()
-                .name(openApiWeather.getLocationName())
-                .countryCode(openApiWeather.getCountryCode())
-                .lat(openApiWeather.getLat())
-                .lon(openApiWeather.getLon()).build();
+            //Api response deserialized into OpenAPI WeatherObject
+            OpenApiWeather openApiWeather = restTemplate.getForObject(
+                    String.format(DOMAIN_URL + WEATHER_ENDPOINT, API_KEY, lat, lon, UNITS),
+                    OpenApiWeather.class
+            );
 
-        //OpenApiWeather mapped to Weather Model
-        return Weather.builder()
-                .location(location)
-                .temp(openApiWeather.getTemp())
-                .rain(openApiWeather.getRain())
-                .cloud(openApiWeather.getCloud())
-                .build();
+
+            Location location = Location.builder()
+                    .name(openApiWeather.getLocationName())
+                    .countryCode(openApiWeather.getCountryCode())
+                    .lat(openApiWeather.getLat())
+                    .lon(openApiWeather.getLon())
+                    .build();
+
+            //OpenApiWeather mapped to Weather Model
+            return Weather.builder()
+                    .location(location)
+                    .temp(openApiWeather.getTemp())
+                    .rain(openApiWeather.getRain())
+                    .cloud(openApiWeather.getCloud())
+                    .build();
     }
 
     @Override
     public Location getLocationFromName(String name) {
         //Api response deserialized into OpenAPI WeatherObject
         OpenApiLocation openApiLocation = restTemplate.getForObject(
-                String.format(DOMAIN_URL + GEO_ENDPOINT_URL, API_KEY, name, LIMIT),
+                String.format(DOMAIN_URL + GEO_ENDPOINT, API_KEY, name, LIMIT),
                 OpenApiLocation.class
         );
 
