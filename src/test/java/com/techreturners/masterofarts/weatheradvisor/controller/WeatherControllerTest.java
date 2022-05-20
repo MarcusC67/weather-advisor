@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 
@@ -112,7 +113,6 @@ class WeatherControllerTest {
                                 .param("lat", Double.toString(lat))
                                 .param("lon", Double.toString(lon)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(result -> System.out.println(result.getResponse().getContentAsString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.location.lat").value(lat))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.location.lon").value(lon))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.temp").value(temp))
@@ -177,32 +177,35 @@ class WeatherControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.recommendations[0].item").value(Item.Umbrella.toString()));
     }
 
-    @Test
-    public void findLocation() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = {"/", "/London/", "", "/London"})
+    public void findLocation(String endpoint) throws Exception {
         double lat = 51.5072;
         double lon = -0.1276;
         String name = "London";
         String countryCode = "GB";
         Location location = Location.builder().name(name).countryCode(countryCode).lat(lat).lon(lon).build();
 
-        double temp = 17.3;
-        long rain = 0L;
-        int cloud = 75;
+        double lat2 = 42.9836747;
+        double lon2 = -81.2496068;
+        String countryCode2 = "CA";
+        Location location2 = Location.builder().name(name).countryCode(countryCode2).lat(lat2).lon(lon2).build();
 
-        Weather weather = Weather
-                .builder()
-                .location(location)
-                .cloud(cloud)
-                .temp(temp)
-                .rain(rain)
-                .build();
+        List<Location> list = new ArrayList<>();
+        list.add(location);
+        list.add(location2);
+        when(advisorService.findLocation("London")).thenReturn(list);
 
-        when(advisorService.getWeather("London")).thenReturn(weather);
-
+        String urlTemplate = "/api/v1/find" + endpoint;
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.get("/api/v1/find/London"))
+                MockMvcRequestBuilders.get(urlTemplate))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.location.lat").value(lat))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.location.lon").value(lon));
+                .andDo(result -> System.out.println(result.getResponse().getContentAsString())) // for testing to see JSON
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lat").value(lat))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lon").value(lon))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].countryCode").value(countryCode))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].lat").value(lat2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].lon").value(lon2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].countryCode").value(countryCode2));
     }
 }

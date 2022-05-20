@@ -3,6 +3,8 @@ package com.techreturners.masterofarts.weatheradvisor.repository;
 import com.techreturners.masterofarts.weatheradvisor.model.Location;
 import com.techreturners.masterofarts.weatheradvisor.model.Weather;
 
+import java.util.List;
+
 /**
  * Service that connects to external weather API.
  */
@@ -15,5 +17,7 @@ public interface ExternalWeatherAPIService {
     Weather getWeather(double lat, double lon);
 
     Location getLocationFromName(String name);
+
+    List<Location> getLocationsFromName(String name);
 
 }

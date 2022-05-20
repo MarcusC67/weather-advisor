@@ -11,6 +11,9 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
 
@@ -72,6 +75,15 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
                 .countryCode(openApiLocation.getCountryCode())
                 .lat(openApiLocation.getLat())
                 .lon(openApiLocation.getLon()).build();
+    }
+
+    @Override
+    public List<Location> getLocationsFromName(String name) {
+
+        List<Location> list = new ArrayList<>();
+        // for now dummy this backwards ...
+        list.add(getLocationFromName(name));
+        return list;
     }
 
 }
