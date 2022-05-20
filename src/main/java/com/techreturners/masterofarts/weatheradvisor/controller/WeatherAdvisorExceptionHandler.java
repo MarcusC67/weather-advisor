@@ -36,7 +36,7 @@ public class WeatherAdvisorExceptionHandler {
                 .message("Location not found")
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
 

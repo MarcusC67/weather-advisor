@@ -37,7 +37,7 @@ public class OpenWeatherResponseErrorHandler extends DefaultResponseErrorHandler
     /**
      * From DefaultResponseErrorHandler
      */
-    protected String getErrorMessage(int rawStatusCode, String statusText, @Nullable byte[] responseBody, @Nullable Charset charset) {
+    private String getErrorMessage(int rawStatusCode, String statusText, @Nullable byte[] responseBody, @Nullable Charset charset) {
         String preface = rawStatusCode + " " + statusText + ": ";
         if (ObjectUtils.isEmpty(responseBody)) {
             return preface + "[no body]";
