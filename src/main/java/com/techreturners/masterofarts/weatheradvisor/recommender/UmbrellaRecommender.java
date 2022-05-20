@@ -14,18 +14,24 @@ public class UmbrellaRecommender implements Recommender {
 
     private static final Item item = Item.Umbrella;
     private static final double NO_RAIN = 0; //mm of rain per hour
-    private static final double LIGHT_RAIN_BOUNDARY = 2.5; //mm of rain per hour
+    private static final double LIGHT_RAIN = 2.5; //mm of rain per hour
+    private static final double VERY_WINDY = 7; //in meters / second
+    private static final double SLIGHTLY_WINDY = 5.5; //in meters / second
 
     @Override
     public Recommendation recommend(Weather weather) {
 
         Advice advice = null;
+        double wind = weather.getWind();
+        double rain = weather.getRain();
 
-        if(weather.getRain() == NO_RAIN)
+        if(wind < 0 || rain < 0 ) //invalid wind or rain values
+            advice = null;
+        else if(wind >= VERY_WINDY || rain == NO_RAIN) //windy or no rain
             advice = Advice.No;
-        else if(weather.getRain() > 0 && weather.getRain() < LIGHT_RAIN_BOUNDARY)
+        else if( (wind < VERY_WINDY && wind >= SLIGHTLY_WINDY) || (rain > NO_RAIN && rain < LIGHT_RAIN)) //slightly windy or light rain
             advice = Advice.Maybe;
-        else if(weather.getRain() >= LIGHT_RAIN_BOUNDARY)
+        else if(rain >= LIGHT_RAIN) //Heavy rain and less than light wind
             advice = Advice.Yes;
 
         return Recommendation.builder().item(item).advice(advice).build();

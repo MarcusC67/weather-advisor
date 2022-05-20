@@ -32,6 +32,12 @@ public class Weather {
     double rain;
 
     /**
+     * Wind speed in meters/sec
+     */
+    @Schema(description = "Wind speed in meters/sec")
+    double wind;
+
+    /**
      * Current cloud cover as %
      */
     @Schema(description = "Current cloud cover as %")

@@ -54,6 +54,7 @@ public class OpenWeatherAPIServiceImp implements ExternalWeatherAPIService {
                     .location(location)
                     .temp(openApiWeather.getTemp())
                     .rain(openApiWeather.getRain())
+                    .wind(openApiWeather.getWind())
                     .cloud(openApiWeather.getCloud())
                     .build();
     }

@@ -48,6 +48,10 @@ public class OpenApiWeatherDeserializer extends JsonDeserializer {
         if (weatherNode.has("rain") && weatherNode.get("rain").has("1h"))
             weather.setRain(weatherNode.get("rain").get("1h").asDouble());
 
+        //deserialize wind speed
+        if (weatherNode.has("wind") && weatherNode.get("wind").has("speed"))
+            weather.setWind(weatherNode.get("wind").get("speed").asDouble());
+
         //deserialize cloud
         if (weatherNode.has("clouds") && weatherNode.get("clouds").has("all"))
             weather.setCloud(weatherNode.get("clouds").get("all").asInt());
