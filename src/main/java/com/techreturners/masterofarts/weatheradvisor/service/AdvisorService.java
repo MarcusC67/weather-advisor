@@ -19,6 +19,7 @@ public class AdvisorService {
     private List<Recommender> recommenders;
 
     public Weather getWeather(double lat, double lon){
+
         return externalWeatherAPIService.getWeather(lat, lon);
     }
 
@@ -45,6 +46,10 @@ public class AdvisorService {
 
         Location location = externalWeatherAPIService.getLocationFromName(locationName);
         return getAdvice(location.getLat(), location.getLon());
+    }
+
+    public List<Location> findLocation(String location) {
+        return externalWeatherAPIService.getLocationsFromName(location);
     }
 
 }

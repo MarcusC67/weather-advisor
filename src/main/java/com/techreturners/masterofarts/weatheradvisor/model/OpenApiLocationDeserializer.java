@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Deserializes a JSON returned from the external OpenWeather API to an OpenApiWeather object
  */
-public class OpenApiLocationDeserializer extends JsonDeserializer {
+public class OpenApiLocationDeserializer extends JsonDeserializer<OpenApiLocation> {
 
     @Override
     public OpenApiLocation deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
@@ -21,15 +21,20 @@ public class OpenApiLocationDeserializer extends JsonDeserializer {
         JsonNode locationNode = jsonParser.getCodec().readTree(jsonParser);
 
         if (locationNode.isEmpty()) throw new LocationNotFoundException();
+        int index = 0;
+        return getOpenApiLocation(locationNode, index);
+    }
 
-        OpenApiLocation location = new OpenApiLocation();
+    protected static OpenApiLocation getOpenApiLocation(JsonNode locationNode, int index) {
+        OpenApiLocation location = null;
 
         //Check required Json keys exist
         //Then mapped to OpenApiLocationObject
         //deserialize location name
-        if (locationNode.has(0)) {
+        if (locationNode.has(index)) {
 
-            JsonNode firstElement = locationNode.get(0);
+            JsonNode firstElement = locationNode.get(index);
+            location = new OpenApiLocation();
 
             if (firstElement.has("name"))
                 location.setName(firstElement.get("name").asText());
