@@ -21,17 +21,21 @@ class UmbrellaRecommenderTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-            0,No
-            0.5,Maybe
-            1,Maybe
-            2.4999,Maybe
-            2.5,Yes
-            3,Yes
-            10,Yes
-            100,Yes
+            0,0,No
+            6,0,No
+            20,0,No
+            0,0.00001,Maybe
+            0,1,Maybe
+            6,1,Maybe
+            20,1,No
+            0,2.4999,Maybe        
+            0,2.5,Yes
+            0,3,Yes
+            6.5,3,Maybe
+            10,3,No
             """)
-    public void testRecommend(double rain, String expectedAdvice) {
-        Recommendation recommendation = umbrellaRecommender.recommend(buildWeather(rain));
+    public void testRecommend(double wind, double rain, String expectedAdvice) {
+        Recommendation recommendation = umbrellaRecommender.recommend(buildWeather(wind, rain));
 
         assertEquals(expectedItem, recommendation.getItem());
         assertEquals(Advice.valueOf(expectedAdvice), recommendation.getAdvice());
@@ -40,13 +44,27 @@ class UmbrellaRecommenderTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-            -0.00000001
-            -0.1
-            -1
-            -10
+            0,-0.00000001
+            5,-0.1
+            6,-1
+            10,-10
             """)
-    public void testRecommendWithNegativeRainfall(double rain){
-        Recommendation recommendation = umbrellaRecommender.recommend(buildWeather(rain));
+    public void testRecommendWithNegativeRainfall(double wind, double rain){
+        Recommendation recommendation = umbrellaRecommender.recommend(buildWeather(wind,rain));
+
+        assertEquals(expectedItem, recommendation.getItem());
+        assertNull(recommendation.getAdvice());
+    }
+
+
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+            -0.0000001,0
+            -1,1
+            -10,5
+            """)
+    public void testRecommendWithNegativeWind(double wind,double rain){
+        Recommendation recommendation = umbrellaRecommender.recommend(buildWeather(wind,rain));
 
         assertEquals(expectedItem, recommendation.getItem());
         assertNull(recommendation.getAdvice());
@@ -55,7 +73,7 @@ class UmbrellaRecommenderTest {
     /**
      * Utility function to build a weather object for the given rain
      */
-    private Weather buildWeather(double rain) {
+    private Weather buildWeather(double wind, double rain) {
 
         Location location = Location.builder()
                 .name("London")
@@ -69,6 +87,7 @@ class UmbrellaRecommenderTest {
                 .temp(17.5)
                 .rain(rain)
                 .cloud(75)
+                .wind(wind)
                 .build();
     }
 }

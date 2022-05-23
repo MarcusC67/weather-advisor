@@ -17,6 +17,7 @@ public class OpenApiWeather {
     double lon;
     double temp;
     double rain;
+    double wind;
     int cloud;
 
 }
