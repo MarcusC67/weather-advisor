@@ -1,7 +1,11 @@
-package com.techreturners.masterofarts.weatheradvisor.repository;
+package com.techreturners.masterofarts.weatheradvisor.repository.openweatherapi;
 
 import com.techreturners.masterofarts.weatheradvisor.error.OpenWeatherResponseErrorHandler;
 import com.techreturners.masterofarts.weatheradvisor.model.*;
+import com.techreturners.masterofarts.weatheradvisor.repository.ExternalWeatherAPIService;
+import com.techreturners.masterofarts.weatheradvisor.repository.openweatherapi.OpenApiLocation;
+import com.techreturners.masterofarts.weatheradvisor.repository.openweatherapi.OpenApiLocationList;
+import com.techreturners.masterofarts.weatheradvisor.repository.openweatherapi.OpenApiWeather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;

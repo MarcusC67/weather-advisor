@@ -8,9 +8,9 @@
 		<version>2.6.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>matt.thewizard.techreturners</groupId>
-	<artifactId>com.techreturners.masterofarts</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>com.techreturners.masterofarts</groupId>
+	<artifactId>weather-advisor</artifactId>
+	<version>1.0.2</version>
 	<name>weather-advisor</name>
 	<description>A simple weather advise API</description>
 	<properties>

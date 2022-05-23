@@ -1,4 +1,4 @@
-package com.techreturners.masterofarts.weatheradvisor.model;
+package com.techreturners.masterofarts.weatheradvisor.repository.openweatherapi;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;

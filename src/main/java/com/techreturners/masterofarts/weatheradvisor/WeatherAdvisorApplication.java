@@ -70,7 +70,7 @@ public class WeatherAdvisorApplication {
 		Map<String, Object> details = new HashMap<>();
 		details.put("name", "Weather Advice Application");
 		details.put("description", "B-Team (a.k.a. Masters Of Arts) team exercise");
-		details.put("version", "1.0.1");
+		details.put("version", "1.0.2");
 		details.put("author", authors);
 		Map<String, Object> wrapper = new HashMap<>();
 		wrapper.put("app", details);
